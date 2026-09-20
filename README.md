@@ -2,7 +2,26 @@
 
 Diário do instrutor: notas do dia a dia (recarga, campeonatos, armas, munições, pistas, treinos) lançadas a partir do WhatsApp, guardadas num repositório privado do GitHub e consultadas de qualquer aparelho.
 
-Spec: `docs/superpowers/specs/2026-09-20-clube-tiro-design.md`
+Spec: `docs/superpowers/specs/2026-09-20-clube-tiro-design.md` · Plano: `docs/superpowers/plans/2026-09-20-clube-tiro.md`
+
+## Como funciona
+
+WhatsApp (export .zip ou texto colado) → o app transcreve áudios (Groq), estrutura em notas (Claude) → você revisa → grava em `clube-tiro-anotacoes` (privado): `notas.json` + `midia/`. Tudo roda no navegador; nenhum servidor próprio.
+
+## Configuração (uma vez, por navegador)
+
+1. Repositório privado `clube-tiro-anotacoes` no GitHub (vazio).
+2. Token fine-grained: só esse repositório, *Contents: Read and write*.
+3. Chave da API em console.anthropic.com.
+4. Chave da API em console.groq.com.
+5. Abrir o app → Config → preencher, "Testar GitHub", "Testar Claude", Salvar.
+
+As credenciais ficam no `localStorage` do navegador. Cada navegador (PC, celular) precisa da configuração.
+
+## Uso
+
+- **Lançar**: no WhatsApp, menu do grupo → Exportar conversa → *Incluir mídia*; salve o .zip e escolha-o em Lançar. Ou cole o texto / envie áudios e fotos soltos. Processar → revisar → Gravar tudo. Mensagens já processadas de exports anteriores são ignoradas.
+- **Consultar**: filtro por categoria, busca, nota aberta com fotos e áudio, editar, excluir, imprimir (nota ou lista filtrada).
 
 ## Rodar local
 
@@ -13,4 +32,21 @@ Spec: `docs/superpowers/specs/2026-09-20-clube-tiro-design.md`
 
     npm test
 
-(Seções de configuração e checklist de teste manual são preenchidas na Task 13.)
+## Publicar
+
+    atualizar.bat      (commit + push; o GitHub Pages publica a branch main)
+
+## Checklist de teste manual
+
+- [ ] Config: testar GitHub e Claude, salvar, F5 mantém
+- [ ] Lançar texto colado com dois campeonatos → 2 notas em `campeonatos`
+- [ ] Lançar export .zip com foto e áudio → transcrição no texto, foto com legenda, áudio com player
+- [ ] Reprocessar o mesmo zip → "Nada novo"
+- [ ] Consultar: filtro, busca sem acento, abrir, editar, excluir
+- [ ] Imprimir nota e imprimir lista filtrada
+- [ ] No celular: tela em uma coluna, lançar e consultar funcionam
+
+## Decisões registradas
+
+- Transcrição: Groq `whisper-large-v3-turbo` (chamada direta do navegador confirmada em 2026-09-20). Alternativa: OpenAI `whisper-1`, comentada em `js/transcricao.js`.
+- Claude: SDK `@anthropic-ai/sdk` via esm.sh com `dangerouslyAllowBrowser` (confirmado em 2026-09-20; o fallback com `fetch` não foi necessário).
