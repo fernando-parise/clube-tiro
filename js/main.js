@@ -31,6 +31,22 @@ var App = {
     return r;
   },
 
+  // mutador recebe uma copia dos dados e devolve os dados novos
+  salvarDados: async function (mutador) {
+    for (var tentativa = 1; tentativa <= 2; tentativa++) {
+      var copia = JSON.parse(JSON.stringify(this.estado.dados));
+      var novos = mutador(copia);
+      try {
+        var r = await GH.salvarNotas(novos, this.estado.sha);
+        this.estado = { dados: novos, sha: r.sha };
+        return;
+      } catch (e) {
+        if (!(e instanceof GH.ConflitoError) || tentativa === 2) throw e;
+        await this.recarregar();
+      }
+    }
+  },
+
   init: async function () {
     var self = this;
     this.aplicarTema(localStorage.getItem('ct_tema') || 'dark');

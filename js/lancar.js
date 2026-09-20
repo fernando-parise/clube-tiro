@@ -169,7 +169,65 @@ var Lancar = {
     });
   },
 
+  nomeMidia: function (data, nomeOriginal) {
+    var ext = nomeOriginal.split('.').pop().toLowerCase();
+    if (ext === 'jpeg') ext = 'jpg';
+    var hex = Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, '0');
+    var d = data.slice(0, 10), hm = data.slice(11, 16).replace(':', '');
+    return 'midia/' + d.slice(0, 4) + '/' + d.slice(5, 7) + '/' + d + '-' + hm + '-' + hex + '.' + ext;
+  },
+
   gravar: async function () {
-    App.aviso('Gravação entra na próxima etapa.');
+    var self = this;
+    var btn = document.getElementById('lancar-gravar');
+    var prog = document.getElementById('lancar-progresso');
+    var propostas = this.lerRevisao();
+    if (!propostas.length) { App.aviso('Nada para gravar.'); return; }
+
+    for (var i = 0; i < propostas.length; i++) {
+      var v = Notas.validar(propostas[i]);
+      if (!v.ok) { App.aviso('Nota ' + (i + 1) + ': ' + v.erros.join('; '), 'erro'); return; }
+    }
+
+    btn.disabled = true;
+    try {
+      var totalAnexos = propostas.reduce(function (n, p) { return n + p.anexos.length; }, 0), feito = 0;
+      var novas = [];
+      for (var p = 0; p < propostas.length; p++) {
+        var prop = propostas[p], midia = [];
+        for (var a = 0; a < prop.anexos.length; a++) {
+          var nome = prop.anexos[a], blob = this.estado.arquivos[nome];
+          if (!blob) continue;
+          feito++;
+          prog.textContent = 'Enviando arquivo ' + feito + ' de ' + totalAnexos + '...';
+          var tipo = this.tipoAnexo(nome);
+          var msg = this.estado.mensagens.find(function (m) { return m.anexo === nome; }) || {};
+          if (tipo === 'imagem') blob = await Imagem.redimensionar(blob);
+          var caminho = this.nomeMidia(prop.data, tipo === 'imagem' ? 'foto.jpg' : nome);
+          await GH.putFile(caminho, await Imagem.blobParaBase64(blob), 'Mídia ' + nome);
+          var item = { tipo: tipo, arquivo: caminho };
+          if (tipo === 'imagem') item.legenda = (msg.texto || '').split('\n')[0].slice(0, 200);
+          else item.transcricao = msg.transcricao || null;
+          midia.push(item);
+        }
+        var origem = prop.anexos.length ? 'arquivo' : 'colado';
+        if (this.estado.mensagens.some(function (m) { return m.origem === 'export-whatsapp'; })) origem = 'export-whatsapp';
+        novas.push({ data: prop.data, categoria: prop.categoria, titulo: prop.titulo, tags: prop.tags, texto: prop.texto, midia: midia, origem: origem });
+      }
+
+      prog.textContent = 'Gravando notas...';
+      var ultima = this.estado.ultimaExport;
+      await App.salvarDados(function (dados) { return Notas.mesclarLote(dados, novas, ultima); });
+      App.aviso(novas.length + ' nota(s) gravada(s).', 'ok');
+      this.limpar();
+      if (typeof Consultar !== 'undefined') Consultar.render();
+      App.mostrar('consultar');
+    } catch (e) {
+      console.error(e);
+      prog.textContent = '';
+      App.aviso('Erro ao gravar: ' + e.message + ' — ajuste e tente "Gravar tudo" de novo.', 'erro');
+    } finally {
+      btn.disabled = false;
+    }
   }
 };
