@@ -28,6 +28,8 @@ var App = {
   init: function () {
     var self = this;
     this.aplicarTema(localStorage.getItem('ct_tema') || 'dark');
+    Config.load();
+    ConfigTela.init();
     document.getElementById('btn-tema').addEventListener('click', function () {
       self.aplicarTema(document.documentElement.dataset.theme === 'light' ? 'dark' : 'light');
     });
@@ -35,6 +37,7 @@ var App = {
     document.querySelectorAll('nav button[data-tela]').forEach(function (b) {
       b.addEventListener('click', function () { self.mostrar(b.dataset.tela); });
     });
+    if (!Config.isConfigured()) { this.mostrar('config'); return; }
     this.mostrar('consultar');
   }
 };

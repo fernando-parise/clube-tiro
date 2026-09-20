@@ -33,12 +33,33 @@
 
     <section id="tela-config" class="tela oculta">
       <h1>Configuração</h1>
+      <div class="card">
+        <h3>GitHub (dados)</h3>
+        <label class="campo"><span>Usuário do GitHub</span><input id="cfg-ghUser" autocomplete="off" placeholder="fernando-parise"></label>
+        <label class="campo"><span>Repositório privado de dados</span><input id="cfg-ghRepo" autocomplete="off" value="clube-tiro-anotacoes"></label>
+        <label class="campo"><span>Token fine-grained (Contents: read/write só nesse repositório)</span><input id="cfg-ghToken" type="password" autocomplete="off"></label>
+        <div class="linha"><button class="btn" id="cfg-testar-gh">Testar GitHub</button><span id="cfg-res-gh" class="progresso"></span></div>
+      </div>
+      <div class="card">
+        <h3>Claude (estruturação das notas)</h3>
+        <label class="campo"><span>Chave da API (console.anthropic.com)</span><input id="cfg-claudeKey" type="password" autocomplete="off"></label>
+        <div class="linha"><button class="btn" id="cfg-testar-claude">Testar Claude</button><span id="cfg-res-claude" class="progresso"></span></div>
+      </div>
+      <div class="card">
+        <h3>Groq (transcrição de áudio)</h3>
+        <label class="campo"><span>Chave da API (console.groq.com)</span><input id="cfg-groqKey" type="password" autocomplete="off"></label>
+      </div>
+      <div class="linha">
+        <button class="btn btn-primario" id="cfg-salvar">Salvar</button>
+        <button class="btn btn-perigo" id="cfg-limpar">Limpar tudo</button>
+      </div>
     </section>
   </main>
 
   <div id="aviso" class="aviso oculta"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="js/config.js"></script>
   <script src="js/notas.js"></script>
   <script src="js/whatsapp-parser.js"></script>
   <script src="js/main.js"></script>
