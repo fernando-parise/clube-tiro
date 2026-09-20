@@ -18,8 +18,8 @@
 - Categorias fixas: `recarga`, `campeonatos`, `armas`, `municoes`, `pistas`, `treinos`, `outros`.
 - Modelo Claude: `claude-opus-5`, structured output via `output_config.format` (`type: "json_schema"`, todo objeto com `additionalProperties: false`), `fallbacks: "default"` com beta `server-side-fallback-2026-07-01`.
 - Transcrição: Groq `whisper-large-v3-turbo`, `language=pt`. Alternativa pronta: OpenAI `whisper-1` (mesma requisição, outra URL/chave).
-- Repositório de dados: `clube-tiro-dados` (privado), arquivo único `notas.json` + `midia/AAAA/MM/`.
-- Token GitHub fine-grained: só `clube-tiro-dados`, *Contents: read and write*.
+- Repositório de dados: `clube-tiro-anotacoes` (privado), arquivo único `notas.json` + `midia/AAAA/MM/`.
+- Token GitHub fine-grained: só `clube-tiro-anotacoes`, *Contents: read and write*.
 - Foto redimensionada no navegador: lado maior 1600 px, JPEG 0.8.
 - Cada tarefa termina com commit. Mensagens de commit em português, com `Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>`.
 - Nunca commitar `notas.json`, `midia/` nem credenciais.
@@ -865,7 +865,7 @@ Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>"
   <div class="card">
     <h3>GitHub (dados)</h3>
     <label class="campo"><span>Usuário do GitHub</span><input id="cfg-ghUser" autocomplete="off" placeholder="fernando-parise"></label>
-    <label class="campo"><span>Repositório privado de dados</span><input id="cfg-ghRepo" autocomplete="off" value="clube-tiro-dados"></label>
+    <label class="campo"><span>Repositório privado de dados</span><input id="cfg-ghRepo" autocomplete="off" value="clube-tiro-anotacoes"></label>
     <label class="campo"><span>Token fine-grained (Contents: read/write só nesse repositório)</span><input id="cfg-ghToken" type="password" autocomplete="off"></label>
     <div class="linha"><button class="btn" id="cfg-testar-gh">Testar GitHub</button><span id="cfg-res-gh" class="progresso"></span></div>
   </div>
@@ -903,7 +903,7 @@ var Config = {
   save: function (obj) {
     var d = {};
     this.CAMPOS.forEach(function (c) { d[c] = String(obj[c] || '').trim(); });
-    if (!d.ghRepo) d.ghRepo = 'clube-tiro-dados';
+    if (!d.ghRepo) d.ghRepo = 'clube-tiro-anotacoes';
     localStorage.setItem(this.CHAVE, JSON.stringify(d));
     this.dados = d;
   },
@@ -938,7 +938,7 @@ var ConfigTela = {
 
   preencher: function () {
     Config.CAMPOS.forEach(function (c) {
-      document.getElementById('cfg-' + c).value = Config.get(c) || (c === 'ghRepo' ? 'clube-tiro-dados' : '');
+      document.getElementById('cfg-' + c).value = Config.get(c) || (c === 'ghRepo' ? 'clube-tiro-anotacoes' : '');
     });
   },
 
@@ -1033,8 +1033,8 @@ Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>"
 
 - [ ] **Step 1: Preparar o repositório de dados (manual, uma vez)**
 
-1. No GitHub: novo repositório `clube-tiro-dados`, **Private**, sem README.
-2. Settings → Developer settings → Personal access tokens → Fine-grained → Generate: Repository access = *Only select repositories* → `clube-tiro-dados`; Permissions → Repository → *Contents: Read and write*. Copiar o token.
+1. No GitHub: novo repositório `clube-tiro-anotacoes`, **Private**, sem README.
+2. Settings → Developer settings → Personal access tokens → Fine-grained → Generate: Repository access = *Only select repositories* → `clube-tiro-anotacoes`; Permissions → Repository → *Contents: Read and write*. Copiar o token.
 3. No app (Configuração): usuário, repositório, token → Salvar.
 
 - [ ] **Step 2: Implementar `js/github-api.js`**
@@ -1166,7 +1166,7 @@ e declarar `init: async function () {`.
 - [ ] **Step 5: Testar no navegador**
 
 1. Configuração → "Testar GitHub" → "OK, repositório acessível". Com token errado → "Falhou".
-2. F5. Expected: abre em Consultar, sem erro; no GitHub, `clube-tiro-dados` agora tem `notas.json` com `{"versao":1,"ultimaMensagemProcessada":null,"notas":[]}`.
+2. F5. Expected: abre em Consultar, sem erro; no GitHub, `clube-tiro-anotacoes` agora tem `notas.json` com `{"versao":1,"ultimaMensagemProcessada":null,"notas":[]}`.
 3. No console:
 ```js
 await GH.putFile('midia/teste.txt', GH.encodeBase64Texto('olá'), 'teste')
@@ -2176,11 +2176,11 @@ Spec: `docs/superpowers/specs/2026-09-20-clube-tiro-design.md` · Plano: `docs/s
 
 ## Como funciona
 
-WhatsApp (export .zip ou texto colado) → o app transcreve áudios (Groq), estrutura em notas (Claude) → você revisa → grava em `clube-tiro-dados` (privado): `notas.json` + `midia/`. Tudo roda no navegador; nenhum servidor próprio.
+WhatsApp (export .zip ou texto colado) → o app transcreve áudios (Groq), estrutura em notas (Claude) → você revisa → grava em `clube-tiro-anotacoes` (privado): `notas.json` + `midia/`. Tudo roda no navegador; nenhum servidor próprio.
 
 ## Configuração (uma vez, por navegador)
 
-1. Repositório privado `clube-tiro-dados` no GitHub (vazio).
+1. Repositório privado `clube-tiro-anotacoes` no GitHub (vazio).
 2. Token fine-grained: só esse repositório, *Contents: Read and write*.
 3. Chave da API em console.anthropic.com.
 4. Chave da API em console.groq.com.

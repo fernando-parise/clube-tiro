@@ -38,7 +38,7 @@ Uso pessoal, um único usuário. Entrada manual: o WhatsApp é só o bloco de no
       |-- API do Claude (Opus 5, structured output): mensagens -> notas propostas
       |-- tela de revisão: usuário ajusta e confirma
       v
-[GitHub] clube-tiro-dados (privado)
+[GitHub] clube-tiro-anotacoes (privado)
       |-- notas.json
       |-- midia/AAAA/MM/*.jpg | *.opus
 ```
@@ -74,7 +74,7 @@ README.md
 
 Sem bundler, sem framework. Bibliotecas externas por CDN: JSZip e o SDK `@anthropic-ai/sdk` (ESM, ver 6.1).
 
-### 3.2 Repositório `clube-tiro-dados` (privado)
+### 3.2 Repositório `clube-tiro-anotacoes` (privado)
 
 ```
 notas.json
@@ -166,7 +166,7 @@ Tabela/cards das notas propostas. Por nota: categoria (select), título, tags, t
 
 ### 5.6 Gravação — `github-api.js`
 
-1. Para cada foto: redimensionar (lado maior 1600 px, JPEG 0.8) e `PUT /repos/{owner}/clube-tiro-dados/contents/midia/...` (base64).
+1. Para cada foto: redimensionar (lado maior 1600 px, JPEG 0.8) e `PUT /repos/{owner}/clube-tiro-anotacoes/contents/midia/...` (base64).
 2. Para cada áudio: `PUT` do arquivo original.
 3. `GET notas.json` (pega o `sha` atual), acrescenta as notas, atualiza `ultimaMensagemProcessada`, `PUT` com o `sha`.
 4. Se o `PUT` do `notas.json` voltar 409/422 (sha desatualizado): `GET` de novo, reaplica, tenta uma vez.
@@ -189,7 +189,7 @@ Barra de progresso simples (arquivo N de M).
 
 ### 6.3 GitHub
 
-- Token fine-grained, escopo: repositório `clube-tiro-dados`, permissão *Contents: read and write*. Nada além disso.
+- Token fine-grained, escopo: repositório `clube-tiro-anotacoes`, permissão *Contents: read and write*. Nada além disso.
 - Leitura de mídia privada: `GET .../contents/{path}` com `Accept: application/vnd.github.raw+json` e o token → `blob` → `URL.createObjectURL`. Cache em memória por sessão.
 - `notas.json` até 1 MB vem inline na Contents API; acima disso o mesmo `GET` com `Accept: raw` continua funcionando. Não há limite prático para o volume esperado.
 
@@ -207,7 +207,7 @@ Barra de progresso simples (arquivo N de M).
 ## 9. Configuração e segurança
 
 - Tela de configuração (engrenagem): usuário do GitHub, nome do repositório de dados, token GitHub, chave Claude, chave Groq. Botão **Testar** valida cada uma (GET no repositório; chamada mínima ao Claude; nada no Groq além de guardar). Tudo em `localStorage` chave `ct_config`.
-- O repositório `clube-tiro-dados` é criado à mão no GitHub (privado, vazio), uma vez. Primeiro uso: se ele não tiver `notas.json`, o app cria com `{ "versao": 1, "notas": [] }`.
+- O repositório `clube-tiro-anotacoes` é criado à mão no GitHub (privado, vazio), uma vez. Primeiro uso: se ele não tiver `notas.json`, o app cria com `{ "versao": 1, "notas": [] }`.
 - Nenhuma credencial vai para o repositório público. `.gitignore` cobre `notas.json` local e `midia/` (usados só em teste local).
 
 ## 10. Visual — tokens Valariss
