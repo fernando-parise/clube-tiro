@@ -39,7 +39,7 @@ var Consultar = {
     lista.innerHTML = notas.map(function (n) {
       return '<div class="card nota-item" data-id="' + esc(n.id) + '">' +
         '<h3>' + esc(n.titulo) + '</h3>' +
-        '<div class="meta"><span class="chip" data-cat="' + n.categoria + '">' + n.categoria + '</span>' +
+        '<div class="meta"><span class="chip" data-cat="' + esc(n.categoria) + '">' + esc(n.categoria) + '</span>' +
         '<span>' + self.formatarData(n.data) + '</span>' +
         (n.midia && n.midia.length ? '<span>' + n.midia.length + ' anexo(s)</span>' : '') + '</div>' +
         '<div class="nota-texto imprimir-so">' + Notas.renderMarkdown(n.texto) + '</div>' +
@@ -75,7 +75,7 @@ var Consultar = {
     el.classList.remove('oculta');
     el.innerHTML =
       '<h2>' + esc(n.titulo) + '</h2>' +
-      '<div class="meta"><span class="chip" data-cat="' + n.categoria + '">' + n.categoria + '</span><span>' + this.formatarData(n.data) + '</span>' +
+      '<div class="meta"><span class="chip" data-cat="' + esc(n.categoria) + '">' + esc(n.categoria) + '</span><span>' + this.formatarData(n.data) + '</span>' +
       (n.tags || []).map(function (t) { return '<span class="chip">' + esc(t) + '</span>'; }).join('') + '</div>' +
       '<div class="nota-texto">' + Notas.renderMarkdown(n.texto) + '</div>' +
       '<div class="midia-grade" id="cons-midia"></div>' +
