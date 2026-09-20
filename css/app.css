@@ -105,3 +105,10 @@ main { max-width: 1100px; margin: 0 auto; padding: 16px; }
 @media (min-width: 900px) {
   .consultar-grade { display: grid; grid-template-columns: 1fr 1.4fr; gap: 16px; align-items: start; }
 }
+
+.revisao-card .campo input, .revisao-card .campo textarea { font-size: 14px; }
+.revisao-card textarea { min-height: 90px; }
+.revisao-card .anexos { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+.revisao-card .anexos img { max-width: 120px; max-height: 120px; border-radius: 8px; border: 1px solid var(--border); }
+.revisao-card .anexos .anexo-audio { display: flex; flex-direction: column; gap: 4px; width: 100%; }
+.revisao-card .anexos .anexo-audio small { color: var(--text-faint); }

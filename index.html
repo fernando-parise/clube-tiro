@@ -29,6 +29,25 @@
 
     <section id="tela-lancar" class="tela oculta">
       <h1>Lançar</h1>
+      <div class="card" id="lancar-entrada">
+        <label class="campo"><span>Texto copiado do WhatsApp (opcional)</span><textarea id="lancar-texto" placeholder="Cole aqui as mensagens..."></textarea></label>
+        <label class="campo"><span>Arquivos: export do WhatsApp (.zip ou .txt), áudios, fotos</span>
+          <input id="lancar-arquivos" type="file" multiple accept=".zip,.txt,.opus,.ogg,.m4a,.mp3,.wav,.jpg,.jpeg,.png,.webp"></label>
+        <div class="linha">
+          <button class="btn btn-primario" id="lancar-processar">Processar</button>
+          <span id="lancar-status" class="progresso"></span>
+        </div>
+      </div>
+      <div id="lancar-revisao" class="oculta">
+        <h2>Revisão</h2>
+        <p class="progresso">Confira, ajuste e grave. Nada foi gravado ainda.</p>
+        <div id="lancar-cards"></div>
+        <div class="linha">
+          <button class="btn btn-primario" id="lancar-gravar">Gravar tudo</button>
+          <button class="btn" id="lancar-cancelar">Descartar</button>
+          <span id="lancar-progresso" class="progresso"></span>
+        </div>
+      </div>
     </section>
 
     <section id="tela-config" class="tela oculta">
@@ -65,6 +84,7 @@
   <script src="js/github-api.js"></script>
   <script src="js/imagem.js"></script>
   <script src="js/transcricao.js"></script>
+  <script src="js/lancar.js"></script>
   <script type="module" src="js/claude.js"></script>
   <script src="js/main.js"></script>
 </body>
