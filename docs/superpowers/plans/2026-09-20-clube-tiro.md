@@ -574,7 +574,7 @@ var Notas = {
   },
 
   normalizar: function (texto) {
-    return String(texto || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+    return String(texto || '').normalize('NFD').replace(/[0300-036f]/g, '').toLowerCase();
   },
 
   slug: function (texto) {
@@ -716,9 +716,9 @@ test('android: separa mensagens, multilinha, anexo com legenda, descarta sistema
 
 test('ios: formato com colchetes, segundos e <anexado: ...>', () => {
   const ios = [
-    '‎[19/09/2026, 21:21:05] Fernando: Campeonato Head Shot',
+    '200e[19/09/2026, 21:21:05] Fernando: Campeonato Head Shot',
     '2 Tiros Cabeça',
-    '[19/09/2026, 21:23:40] Fernando: ‎<anexado: 00000012-PHOTO-2026-09-19-21-23-40.jpg>',
+    '[19/09/2026, 21:23:40] Fernando: 200e<anexado: 00000012-PHOTO-2026-09-19-21-23-40.jpg>',
     'alvo',
   ].join('\n');
   const m = P.parse(ios);
@@ -772,7 +772,7 @@ var WhatsAppParser = {
     var mensagens = [], atual = null;
 
     String(texto || '').split(/\r?\n/).forEach(function (bruta) {
-      var linha = bruta.replace(/‎/g, '');
+      var linha = bruta.replace(/200e/g, '');
       var m = linha.match(self.RE_ANDROID) || linha.match(self.RE_IOS);
       if (m) {
         if (atual) mensagens.push(self._fechar(atual));
