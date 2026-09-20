@@ -7,7 +7,7 @@ var Notas = {
   },
 
   normalizar: function (texto) {
-    return String(texto || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+    return String(texto || '').normalize('NFD').replace(/[\u0300-\u036F]/g, '').toLowerCase();
   },
 
   slug: function (texto) {
