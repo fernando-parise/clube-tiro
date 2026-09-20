@@ -1,3 +1,4 @@
+// ========== PARSER DO EXPORT DO WHATSAPP (funcao pura) ==========
 var WhatsAppParser = {
   // Android: "19/09/2026 21:21 - Fernando: texto"   (aceita virgula depois da data e am/pm)
   RE_ANDROID: /^(\d{1,2})\/(\d{1,2})\/(\d{2,4}),? (\d{1,2}):(\d{2})(?::\d{2})?\s?(?:[ap]\.?m\.?)?\s-\s([^:]+?):\s?(.*)$/i,
@@ -64,4 +65,3 @@ var WhatsAppParser = {
 };
 
 if (typeof module !== 'undefined') module.exports = WhatsAppParser;
-``
