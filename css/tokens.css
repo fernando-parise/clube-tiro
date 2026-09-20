@@ -1,0 +1,58 @@
+:root {
+  --bg: #070b18;
+  --bg-elevated: #0f1936;
+  --bg-card: #152242;
+  --input: #152242;
+  --input-hover: #1c2b52;
+  --border: #233156;
+  --border-soft: #182241;
+  --border-strong: #34446d;
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-faint: #8391a9;
+  --text-faintest: #7a88a1;
+  --accent: #22d3ee;
+  --accent-2: #06b6d4;
+  --on-accent: #031318;
+  --danger: #f87171;
+  --danger-bg: rgba(248, 113, 113, 0.09);
+  --warning: #fbbf24;
+  --warning-bg: rgba(251, 191, 36, 0.08);
+  --success: #34d399;
+  --success-bg: rgba(52, 211, 153, 0.1);
+  --treinos: #c4b5fd;
+  --sombra: 0 28px 60px -30px rgba(2, 6, 20, 0.85);
+  --grade: rgba(255, 255, 255, 0.035);
+  --veu: rgba(2, 6, 20, 0.66);
+  --fonte: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --fonte-titulo: "Space Grotesk", var(--fonte);
+  --fonte-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+:root[data-theme="light"] {
+  --bg: #f6f7f9;
+  --bg-elevated: #ffffff;
+  --bg-card: #f0f1f3;
+  --input: #f8f9fb;
+  --input-hover: #f0f2f5;
+  --border: #e4e4e7;
+  --border-soft: #ececef;
+  --border-strong: #cfd3da;
+  --text: #18181b;
+  --text-muted: #52525b;
+  --text-faint: #71717a;
+  --text-faintest: #6b6b74;
+  --accent: #0891b2;
+  --accent-2: #0e7490;
+  --on-accent: #ffffff;
+  --danger: #dc2626;
+  --danger-bg: rgba(220, 38, 38, 0.07);
+  --warning: #b45309;
+  --warning-bg: rgba(217, 119, 6, 0.08);
+  --success: #15803d;
+  --success-bg: rgba(21, 128, 61, 0.08);
+  --treinos: #6d28d9;
+  --sombra: 0 22px 48px -28px rgba(15, 23, 42, 0.3);
+  --grade: rgba(15, 23, 42, 0.05);
+  --veu: rgba(15, 23, 42, 0.45);
+}

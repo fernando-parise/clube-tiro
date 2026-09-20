@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clube Tiro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="marca">Clube<span>Tiro</span></div>
+    <nav>
+      <button data-tela="consultar" class="ativo">Consultar</button>
+      <button data-tela="lancar">Lançar</button>
+    </nav>
+    <div class="acoes">
+      <button id="btn-tema" title="Alternar tema">Tema</button>
+      <button id="btn-config" title="Configuração">Config</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="tela-consultar" class="tela">
+      <h1>Consultar</h1>
+    </section>
+
+    <section id="tela-lancar" class="tela oculta">
+      <h1>Lançar</h1>
+    </section>
+
+    <section id="tela-config" class="tela oculta">
+      <h1>Configuração</h1>
+    </section>
+  </main>
+
+  <div id="aviso" class="aviso oculta"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
