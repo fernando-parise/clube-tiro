@@ -25,6 +25,16 @@
   <main>
     <section id="tela-consultar" class="tela">
       <h1>Consultar</h1>
+      <div class="linha">
+        <label class="campo" style="flex:1;margin:0"><input id="cons-busca" placeholder="Buscar em título, texto e tags..."></label>
+        <span id="cons-contador" class="progresso"></span>
+        <button class="btn" id="cons-imprimir-lista">Imprimir lista</button>
+      </div>
+      <div class="chips" id="cons-chips"></div>
+      <div class="consultar-grade">
+        <div id="cons-lista"></div>
+        <div id="cons-nota" class="card oculta"></div>
+      </div>
     </section>
 
     <section id="tela-lancar" class="tela oculta">
@@ -85,6 +95,7 @@
   <script src="js/imagem.js"></script>
   <script src="js/transcricao.js"></script>
   <script src="js/lancar.js"></script>
+  <script src="js/consultar.js"></script>
   <script type="module" src="js/claude.js"></script>
   <script src="js/main.js"></script>
 </body>

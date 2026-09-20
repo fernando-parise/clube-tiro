@@ -52,6 +52,7 @@ var App = {
     this.aplicarTema(localStorage.getItem('ct_tema') || 'dark');
     Config.load();
     ConfigTela.init();
+    Consultar.init();
     Lancar.init();
     document.getElementById('btn-tema').addEventListener('click', function () {
       self.aplicarTema(document.documentElement.dataset.theme === 'light' ? 'dark' : 'light');
@@ -63,6 +64,7 @@ var App = {
     if (!Config.isConfigured()) { this.mostrar('config'); return; }
     try {
       await this.recarregar();
+      Consultar.render();
     } catch (e) {
       this.aviso('Não consegui ler o repositório de dados: ' + e.message, 'erro');
       this.mostrar('config');
