@@ -25,7 +25,13 @@ var App = {
     localStorage.setItem('ct_tema', tema || 'dark');
   },
 
-  init: function () {
+  recarregar: async function () {
+    var r = await GH.carregarNotas();
+    this.estado = r;
+    return r;
+  },
+
+  init: async function () {
     var self = this;
     this.aplicarTema(localStorage.getItem('ct_tema') || 'dark');
     Config.load();
@@ -38,6 +44,13 @@ var App = {
       b.addEventListener('click', function () { self.mostrar(b.dataset.tela); });
     });
     if (!Config.isConfigured()) { this.mostrar('config'); return; }
+    try {
+      await this.recarregar();
+    } catch (e) {
+      this.aviso('Não consegui ler o repositório de dados: ' + e.message, 'erro');
+      this.mostrar('config');
+      return;
+    }
     this.mostrar('consultar');
   }
 };
