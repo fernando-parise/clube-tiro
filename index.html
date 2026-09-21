@@ -40,7 +40,7 @@
     <section id="tela-lancar" class="tela oculta">
       <h1>Lançar</h1>
       <div class="card" id="lancar-entrada">
-        <label class="campo"><span>Texto copiado do WhatsApp (opcional)</span><textarea id="lancar-texto" placeholder="Cole aqui as mensagens..."></textarea></label>
+        <label class="campo"><span>JSON do claude.ai ou texto copiado do WhatsApp</span><textarea id="lancar-texto" placeholder="Cole aqui o JSON gerado no seu Projeto do claude.ai, ou as mensagens copiadas do WhatsApp"></textarea></label>
         <label class="campo"><span>Arquivos: export do WhatsApp (.zip ou .txt), áudios, fotos</span>
           <input id="lancar-arquivos" type="file" multiple accept=".zip,.txt,.opus,.ogg,.m4a,.mp3,.wav,.jpg,.jpeg,.png,.webp"></label>
         <div class="linha">
@@ -71,12 +71,12 @@
       </div>
       <div class="card">
         <h3>Claude (estruturação das notas)</h3>
-        <label class="campo"><span>Chave da API (console.anthropic.com)</span><input id="cfg-claudeKey" type="password" autocomplete="off"></label>
+        <label class="campo"><span>Chave da API (console.anthropic.com) — opcional: só para estruturar direto no app; sem ela, cole o JSON gerado no seu Projeto do claude.ai</span><input id="cfg-claudeKey" type="password" autocomplete="off"></label>
         <div class="linha"><button class="btn" id="cfg-testar-claude">Testar Claude</button><span id="cfg-res-claude" class="progresso"></span></div>
       </div>
       <div class="card">
         <h3>Groq (transcrição de áudio)</h3>
-        <label class="campo"><span>Chave da API (console.groq.com)</span><input id="cfg-groqKey" type="password" autocomplete="off"></label>
+        <label class="campo"><span>Chave da API (console.groq.com) — opcional: só para transcrever áudio no app</span><input id="cfg-groqKey" type="password" autocomplete="off"></label>
       </div>
       <div class="linha">
         <button class="btn btn-primario" id="cfg-salvar">Salvar</button>

@@ -64,3 +64,19 @@ test('renderMarkdown faz lista, negrito, paragrafo e escapa html', () => {
   const html = Notas.renderMarkdown('Regras **7 metros**\n- 3 tiros peito\n- 3 tiros <cabeça>\n\nFim');
   assert.equal(html, '<p>Regras <strong>7 metros</strong></p><ul><li>3 tiros peito</li><li>3 tiros &lt;cabeça&gt;</li></ul><p>Fim</p>');
 });
+
+test('lerJsonNotas aceita {notas:[]}, lista, cerca de codigo e rejeita texto solto', () => {
+  const NL = String.fromCharCode(10);
+  const json = '{"notas":[{"data":"2026-09-19T21:21","categoria":"campeonatos","titulo":"El Patron","tags":["7 metros"],"texto":"- 3 tiros","anexos":["IMG-1.jpg"]}]}';
+  const p = Notas.lerJsonNotas(json);
+  assert.equal(p.length, 1);
+  assert.deepEqual(p[0], { data: '2026-09-19T21:21', categoria: 'campeonatos', titulo: 'El Patron', tags: ['7 metros'], texto: '- 3 tiros', anexos: ['IMG-1.jpg'] });
+  assert.deepEqual(Notas.lerJsonNotas(['```json', json, '```'].join(NL)), p, 'cerca de codigo');
+  const lista = Notas.lerJsonNotas('[{"titulo":"Sem nada","categoria":"festa"}]');
+  assert.equal(lista[0].categoria, 'outros');
+  assert.deepEqual(lista[0].tags, []);
+  assert.match(lista[0].data, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/);
+  assert.equal(Notas.lerJsonNotas('Campeonato El Patron' + NL + '3 tiros peito'), null);
+  assert.equal(Notas.lerJsonNotas('{"x":1}'), null);
+  assert.equal(Notas.lerJsonNotas('{quebrado'), null);
+});

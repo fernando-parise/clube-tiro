@@ -32,7 +32,8 @@ var Lancar = {
   },
 
   // Le textarea + arquivos e devolve { mensagens, arquivos, ultimaExport }
-  normalizar: async function () {
+  // ignorarTexto: o textarea ja foi consumido como JSON de notas
+  normalizar: async function (ignorarTexto) {
     var self = this;
     var texto = document.getElementById('lancar-texto').value;
     var files = Array.from(document.getElementById('lancar-arquivos').files);
@@ -60,7 +61,7 @@ var Lancar = {
         soltas.push({ data: agora, autor: null, texto: '', anexo: f.name });
       }
     }
-    if (texto.trim()) soltas = soltas.concat(WhatsAppParser.parse(texto, agora));
+    if (!ignorarTexto && texto.trim()) soltas = soltas.concat(WhatsAppParser.parse(texto, agora));
 
     var ultimaProcessada = (App.estado.dados || {}).ultimaMensagemProcessada;
     var novasExport = WhatsAppParser.filtrarNovas(deExport, ultimaProcessada);
@@ -81,6 +82,7 @@ var Lancar = {
       var m = audios[i];
       this.status('Transcrevendo áudio ' + (i + 1) + ' de ' + audios.length + '...');
       try {
+        if (!Config.get('groqKey')) throw new Error('sem chave do Groq');
         m.transcricao = await Transcricao.transcrever(arquivos[m.anexo], m.anexo);
         m.texto = (m.texto ? m.texto + '\n' : '') + m.transcricao;
       } catch (e) {
@@ -98,12 +100,22 @@ var Lancar = {
     try {
       if (!App.estado.dados) await App.recarregar();
       this.status('Lendo arquivos...');
+      // JSON pronto (gerado no claude.ai): pula transcricao e Claude, vai direto pra revisao
+      var prontas = Notas.lerJsonNotas(document.getElementById('lancar-texto').value);
+      if (prontas) {
+        var arq = await this.normalizar(true);
+        this.estado = { mensagens: arq.mensagens, arquivos: arq.arquivos, propostas: prontas, ultimaExport: null };
+        this.renderRevisao();
+        this.status('');
+        return;
+      }
       var n = await this.normalizar();
       if (!n.mensagens.length) {
         this.status('');
         App.aviso(n.ignoradas ? 'Nada novo: ' + n.ignoradas + ' mensagem(ns) já processada(s).' : 'Nada para processar.');
         return;
       }
+      if (!Config.get('claudeKey')) throw new Error('Cole o JSON gerado no seu Projeto do claude.ai, ou configure a chave da API do Claude.');
       await this.transcrever(n.mensagens, n.arquivos);
       if (!window.ClaudeAPI) throw new Error('Módulo do Claude ainda não carregou; tente de novo.');
       this.status('Estruturando ' + n.mensagens.length + ' mensagem(ns) com o Claude...');

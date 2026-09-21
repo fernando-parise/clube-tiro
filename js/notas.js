@@ -70,6 +70,34 @@ var Notas = {
     return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   },
 
+  // Texto colado que ja vem estruturado (JSON gerado no claude.ai): {"notas":[...]} ou [...]
+  // Devolve propostas no formato da revisao, ou null se nao for JSON de notas.
+  lerJsonNotas: function (texto) {
+    var t = String(texto || '').trim();
+    if (t.slice(0, 3) === '```') {
+      t = t.slice(t.indexOf(String.fromCharCode(10)) + 1);
+      if (t.slice(-3) === '```') t = t.slice(0, -3);
+      t = t.trim();
+    }
+    if (t[0] !== '[' && t[0] !== '{') return null;
+    var obj;
+    try { obj = JSON.parse(t); } catch (e) { return null; }
+    var lista = Array.isArray(obj) ? obj : obj.notas;
+    if (!Array.isArray(lista)) return null;
+    var self = this;
+    return lista.map(function (n) {
+      n = n || {};
+      return {
+        data: String(n.data || self.agoraLocal()).slice(0, 16),
+        categoria: self.CATEGORIAS.indexOf(n.categoria) >= 0 ? n.categoria : 'outros',
+        titulo: String(n.titulo || ''),
+        tags: Array.isArray(n.tags) ? n.tags.map(String) : [],
+        texto: String(n.texto || ''),
+        anexos: Array.isArray(n.anexos) ? n.anexos.map(String) : []
+      };
+    });
+  },
+
   renderMarkdown: function (texto) {
     var self = this;
     var html = '', emLista = false;

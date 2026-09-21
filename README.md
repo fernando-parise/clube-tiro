@@ -12,11 +12,16 @@ WhatsApp (export .zip ou texto colado) → o app transcreve áudios (Groq), estr
 
 1. Repositório privado `clube-tiro-anotacoes` no GitHub (vazio).
 2. Token fine-grained: só esse repositório, *Contents: Read and write*.
-3. Chave da API em console.anthropic.com.
-4. Chave da API em console.groq.com.
+3. (Opcional) Chave da API em console.anthropic.com — só para o jeito 2.
+4. (Opcional) Chave da API em console.groq.com — só para transcrever áudio no app.
 5. Abrir o app → Config → preencher, "Testar GitHub", "Testar Claude", Salvar.
 
 As credenciais ficam no `localStorage` do navegador. Cada navegador (PC, celular) precisa da configuração.
+
+## Dois jeitos de estruturar as notas
+
+1. **Pelo claude.ai (sem chave de API)** — crie um Projeto no claude.ai com as instruções de `docs/instrucoes-projeto-claude-ai.md`, mande lá as mensagens do WhatsApp (áudio: transcreva no próprio WhatsApp e mande o texto), copie o JSON que ele devolve e cole em **Lançar**. O app reconhece o JSON e vai direto pra revisão. Fotos: anexe no app junto com o JSON, com o mesmo nome de arquivo que você citou pro Claude.
+2. **Pela API (chaves do Claude e do Groq na Config)** — cole o texto ou o export .zip em Lançar e o app transcreve e estrutura sozinho. Custo por uso.
 
 ## Uso
 
