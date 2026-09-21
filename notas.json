@@ -1,5 +1,23 @@
 {
   "versao": 1,
   "ultimaMensagemProcessada": null,
-  "notas": []
+  "notas": [
+    {
+      "data": "2026-09-21T12:00",
+      "categoria": "campeonatos",
+      "titulo": "Campeonato El Patron",
+      "tags": [
+        "7 metros",
+        "contagem de tempo",
+        "recarga",
+        "peito",
+        "cabeça"
+      ],
+      "texto": "- 3 tiros peito\n- 3 tiros cabeça\n- Com uma recarga\n- 7 metros, contagem de tempo",
+      "midia": [],
+      "origem": "colado",
+      "id": "2026-09-21-campeonato-el-patron",
+      "criadoEm": "2026-09-21T20:02"
+    }
+  ]
 }
