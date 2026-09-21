@@ -31,7 +31,7 @@ var WhatsAppParser = {
     });
     if (atual) mensagens.push(self._fechar(atual));
 
-    var agoraIso = agora || new Date().toISOString().slice(0, 16);
+    var agoraIso = agora || self._agoraLocal();
     return mensagens
       .filter(function (msg) { return !self._ehSistema(msg); })
       .map(function (msg) { if (!msg.data) msg.data = agoraIso; return msg; })
@@ -41,6 +41,13 @@ var WhatsAppParser = {
   filtrarNovas: function (mensagens, ultima) {
     if (!ultima) return mensagens;
     return mensagens.filter(function (m) { return m.data > ultima; });
+  },
+
+  // Copia local de agoraLocal (Notas.agoraLocal): este modulo nao pode depender de Notas
+  _agoraLocal: function () {
+    var d = new Date();
+    var pad = function (n) { return String(n).padStart(2, '0'); };
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes());
   },
 
   _fechar: function (msg) {

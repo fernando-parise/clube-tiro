@@ -37,7 +37,7 @@ var Lancar = {
     var texto = document.getElementById('lancar-texto').value;
     var files = Array.from(document.getElementById('lancar-arquivos').files);
     var deExport = [], soltas = [], arquivos = {};
-    var agora = new Date().toISOString().slice(0, 16);
+    var agora = Notas.agoraLocal();
 
     for (var i = 0; i < files.length; i++) {
       var f = files[i];
@@ -64,7 +64,7 @@ var Lancar = {
 
     var ultimaProcessada = (App.estado.dados || {}).ultimaMensagemProcessada;
     var novasExport = WhatsAppParser.filtrarNovas(deExport, ultimaProcessada);
-    var ultimaExport = novasExport.reduce(function (max, m) { return (!max || m.data > max) ? m.data : max; }, null);
+    var ultimaExport = novasExport.filter(function (m) { return m.autor !== null; }).reduce(function (max, m) { return (!max || m.data > max) ? m.data : max; }, null);
 
     var mensagens = novasExport.concat(soltas).map(function (m) {
       return Object.assign({}, m, { tipoAnexo: m.anexo ? self.tipoAnexo(m.anexo) : null, origem: deExport.indexOf(m) >= 0 ? 'export-whatsapp' : (m.anexo ? 'arquivo' : 'colado') });
@@ -96,6 +96,7 @@ var Lancar = {
     var btn = document.getElementById('lancar-processar');
     btn.disabled = true;
     try {
+      if (!App.estado.dados) await App.recarregar();
       this.status('Lendo arquivos...');
       var n = await this.normalizar();
       if (!n.mensagens.length) {
@@ -146,6 +147,7 @@ var Lancar = {
     cards.querySelectorAll('.rev-excluir').forEach(function (b) {
       b.addEventListener('click', function () {
         var card = b.closest('.revisao-card');
+        self.estado.propostas = self.lerRevisao();
         self.estado.propostas.splice(Number(card.dataset.i), 1);
         self.renderRevisao();
       });

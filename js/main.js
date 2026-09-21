@@ -33,6 +33,7 @@ var App = {
 
   // mutador recebe uma copia dos dados e devolve os dados novos
   salvarDados: async function (mutador) {
+    if (!this.estado.dados) await this.recarregar();
     for (var tentativa = 1; tentativa <= 2; tentativa++) {
       var copia = JSON.parse(JSON.stringify(this.estado.dados));
       var novos = mutador(copia);

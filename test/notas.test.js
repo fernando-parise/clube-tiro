@@ -7,6 +7,15 @@ test('slug remove acento, pontuacao e espacos', () => {
   assert.equal(Notas.slug('   '), 'nota');
 });
 
+test('agoraLocal devolve AAAA-MM-DDTHH:MM em hora local', () => {
+  const d = new Date();
+  const pad = (n) => String(n).padStart(2, '0');
+  const esperado = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  const atual = Notas.agoraLocal();
+  assert.match(atual, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/);
+  assert.equal(atual.slice(0, 10), esperado.slice(0, 10));
+});
+
 test('gerarId usa data + slug e resolve colisao com sufixo', () => {
   assert.equal(Notas.gerarId('2026-09-19T21:21', 'Campeonato El Patron', []), '2026-09-19-campeonato-el-patron');
   const ids = ['2026-09-19-campeonato-el-patron', '2026-09-19-campeonato-el-patron-2'];

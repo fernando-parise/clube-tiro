@@ -49,4 +49,4 @@ As credenciais ficam no `localStorage` do navegador. Cada navegador (PC, celular
 ## Decisões registradas
 
 - Transcrição: Groq `whisper-large-v3-turbo` (chamada direta do navegador confirmada em 2026-09-20). Alternativa: OpenAI `whisper-1`, comentada em `js/transcricao.js`.
-- Claude: SDK `@anthropic-ai/sdk` via esm.sh com `dangerouslyAllowBrowser` (confirmado em 2026-09-20; o fallback com `fetch` não foi necessário).
+- Claude: SDK `@anthropic-ai/sdk@0.127.0` via esm.sh (versão fixada) com `dangerouslyAllowBrowser` (confirmado em 2026-09-20; o fallback com `fetch` não foi necessário).

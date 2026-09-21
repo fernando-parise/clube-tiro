@@ -6,6 +6,13 @@ var Notas = {
     return { versao: 1, ultimaMensagemProcessada: null, notas: [] };
   },
 
+  // "Agora" em hora local (nao UTC), formato AAAA-MM-DDTHH:MM
+  agoraLocal: function () {
+    var d = new Date();
+    var pad = function (n) { return String(n).padStart(2, '0'); };
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+  },
+
   normalizar: function (texto) {
     return String(texto || '').normalize('NFD').replace(/[\u0300-\u036F]/g, '').toLowerCase();
   },
@@ -52,7 +59,7 @@ var Notas = {
     var adicionadas = (novas || []).map(function (n) {
       var id = self.gerarId(n.data, n.titulo, ids);
       ids.push(id);
-      return Object.assign({}, n, { id: id, criadoEm: n.criadoEm || new Date().toISOString().slice(0, 19) });
+      return Object.assign({}, n, { id: id, criadoEm: n.criadoEm || self.agoraLocal() });
     });
     var ultima = dados.ultimaMensagemProcessada || null;
     if (ultimaMensagem && (!ultima || ultimaMensagem > ultima)) ultima = ultimaMensagem;

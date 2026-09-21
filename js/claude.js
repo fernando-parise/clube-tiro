@@ -1,5 +1,5 @@
 // ========== CLAUDE: estrutura mensagens em notas ==========
-import Anthropic from 'https://esm.sh/@anthropic-ai/sdk';
+import Anthropic from 'https://esm.sh/@anthropic-ai/sdk@0.127.0';
 
 var CATEGORIAS = ['recarga', 'campeonatos', 'armas', 'municoes', 'pistas', 'treinos', 'outros'];
 
@@ -68,9 +68,10 @@ window.ClaudeAPI = {
       output_config: { format: { type: 'json_schema', schema: SCHEMA } }
     });
     if (resp.stop_reason === 'refusal') throw new Error('O Claude recusou processar este lote.');
+    if (resp.stop_reason === 'max_tokens') throw new Error('Resposta do Claude foi cortada; divida o lote em partes menores.');
     var bloco = resp.content.find(function (b) { return b.type === 'text'; });
     if (!bloco) throw new Error('Resposta do Claude sem texto.');
-    return JSON.parse(bloco.text).notas;
+    try { return JSON.parse(bloco.text).notas; } catch (e) { throw new Error('Resposta do Claude não é JSON válido.'); }
   },
 
   testar: async function (chave) {
