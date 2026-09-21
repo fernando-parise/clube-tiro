@@ -18,6 +18,23 @@
       "origem": "colado",
       "id": "2026-09-21-campeonato-el-patron",
       "criadoEm": "2026-09-21T20:02"
+    },
+    {
+      "data": "2026-09-21T12:00",
+      "categoria": "campeonatos",
+      "titulo": "Campeonato Head Shot",
+      "tags": [
+        "7 metros",
+        "contagem de tempo",
+        "pistola",
+        "carabina",
+        "cabeça"
+      ],
+      "texto": "- 2 tiros cabeça\n- Pistola ou carabina\n- 7 metros, contagem de tempo",
+      "midia": [],
+      "origem": "colado",
+      "id": "2026-09-21-campeonato-head-shot",
+      "criadoEm": "2026-09-21T20:03"
     }
   ]
 }
