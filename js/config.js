@@ -59,7 +59,14 @@ var ConfigTela = {
   },
 
   salvar: async function () {
-    Config.save(this.ler());
+    var c = this.ler();
+    // O site (este app) mora num repositorio publico; as notas nunca podem ir para ele
+    var repoSite = location.hostname.indexOf('github.io') >= 0 ? location.pathname.split('/')[1] : '';
+    if (repoSite && c.ghRepo.trim() === repoSite) {
+      App.aviso('O repositório de dados não pode ser "' + repoSite + '": esse é o repositório público do site. Use o repositório privado (clube-tiro-anotacoes).', 'erro');
+      return;
+    }
+    Config.save(c);
     App.aviso('Configuração salva.', 'ok');
     if (typeof App.recarregar === 'function') {
       try {
