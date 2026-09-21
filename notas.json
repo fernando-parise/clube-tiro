@@ -35,6 +35,21 @@
       "origem": "colado",
       "id": "2026-09-21-campeonato-head-shot",
       "criadoEm": "2026-09-21T20:03"
+    },
+    {
+      "data": "2026-09-21T12:00",
+      "categoria": "campeonatos",
+      "titulo": "Campeonato Gauge Reload",
+      "tags": [
+        "cal. 12",
+        "recarga",
+        "2 tiros"
+      ],
+      "texto": "Tiro com recarga, 2 tiros com a cal. 12:\n\n- Atira\n- Recarrega\n- Atira",
+      "midia": [],
+      "origem": "colado",
+      "id": "2026-09-21-campeonato-gauge-reload",
+      "criadoEm": "2026-09-21T20:03"
     }
   ]
 }
