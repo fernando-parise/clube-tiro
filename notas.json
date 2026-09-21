@@ -50,6 +50,21 @@
       "origem": "colado",
       "id": "2026-09-21-campeonato-gauge-reload",
       "criadoEm": "2026-09-21T20:03"
+    },
+    {
+      "data": "2026-09-21T12:00",
+      "categoria": "campeonatos",
+      "titulo": "Campeonato W2C Open Ammo",
+      "tags": [
+        "10 metros",
+        "alvo 4 cores",
+        "tempo por cor"
+      ],
+      "texto": "- Alvo 4 cores\n- 10 metros\n\nTempos entre cada cor, respectivamente:\n\n- 20 segundos\n- 15 segundos\n- 10 segundos\n- 6 segundos",
+      "midia": [],
+      "origem": "colado",
+      "id": "2026-09-21-campeonato-w2c-open-ammo",
+      "criadoEm": "2026-09-21T20:04"
     }
   ]
 }
