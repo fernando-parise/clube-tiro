@@ -29,6 +29,14 @@ As credenciais ficam no `localStorage` do navegador. Cada navegador (PC, celular
 - **Lançar (detalhe)**: no WhatsApp, menu do grupo → Exportar conversa → *Incluir mídia*; salve o .zip e escolha-o em Lançar. Ou cole o texto / envie áudios e fotos soltos. Processar → revisar → Gravar tudo. Mensagens já processadas de exports anteriores são ignoradas.
 - **Consultar**: filtro por categoria, busca, nota aberta com fotos e áudio, editar, excluir, imprimir (nota ou lista filtrada).
 
+## Segurança
+
+- As credenciais (token do GitHub, chaves de API) ficam só no `localStorage` do navegador; nunca vão para o repositório nem para uma URL.
+- A página não carrega código de terceiros além do JSZip (com verificação de integridade SRI); a chamada ao Claude é `fetch` direto, sem SDK externo.
+- `Content-Security-Policy` na página limita scripts a esta origem e conexões a api.github.com, api.anthropic.com e api.groq.com.
+- `Config.save` recusa gravar as notas no repositório público do site.
+- O `localStorage` é compartilhado por todos os projetos publicados em `fernando-parise.github.io`: não publique nesse usuário páginas com código de terceiros que você não audite. Para isolar de vez, use um domínio próprio em Settings → Pages → Custom domain.
+
 ## Rodar local
 
     iniciar.bat        (ou: node server.js)  -> http://localhost:3000

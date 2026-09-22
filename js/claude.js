@@ -1,6 +1,4 @@
 // ========== CLAUDE: estrutura mensagens em notas ==========
-import Anthropic from 'https://esm.sh/@anthropic-ai/sdk@0.127.0';
-
 var CATEGORIAS = ['recarga', 'campeonatos', 'armas', 'municoes', 'pistas', 'treinos', 'outros'];
 
 var SCHEMA = {
@@ -53,15 +51,27 @@ function montarEntrada(mensagens) {
 window.ClaudeAPI = {
   MODELO: 'claude-opus-5',
 
-  _client: function (chave) {
-    return new Anthropic({ apiKey: chave || Config.get('claudeKey'), dangerouslyAllowBrowser: true });
+  // fetch direto, sem SDK de terceiros: nada de codigo externo nesta origem
+  _chamar: async function (body, chave) {
+    var r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': chave || Config.get('claudeKey'),
+        'anthropic-version': '2023-06-01',
+        'anthropic-beta': 'server-side-fallback-2026-07-01',
+        'anthropic-dangerous-direct-browser-access': 'true',
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+    if (!r.ok) throw new Error('Claude ' + r.status + ': ' + (await r.text()).slice(0, 200));
+    return r.json();
   },
 
   estruturar: async function (mensagens) {
-    var resp = await this._client().beta.messages.create({
+    var resp = await this._chamar({
       model: this.MODELO,
       max_tokens: 16000,
-      betas: ['server-side-fallback-2026-07-01'],
       fallbacks: 'default',
       system: SYSTEM,
       messages: [{ role: 'user', content: 'Mensagens do grupo do WhatsApp:\n\n' + montarEntrada(mensagens) }],
@@ -75,11 +85,11 @@ window.ClaudeAPI = {
   },
 
   testar: async function (chave) {
-    var r = await this._client(chave).messages.create({
+    var r = await this._chamar({
       model: this.MODELO,
       max_tokens: 16,
       messages: [{ role: 'user', content: 'Responda apenas OK.' }]
-    });
+    }, chave);
     return r.content.length > 0;
   }
 };

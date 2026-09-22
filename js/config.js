@@ -10,7 +10,16 @@ var Config = {
     return this.dados;
   },
 
+  // O repositorio do site e publico: as notas nunca podem ir para ele
+  repoDoSite: function () {
+    return location.hostname.indexOf('github.io') >= 0 ? (location.pathname.split('/')[1] || '') : 'clube-tiro';
+  },
+
   save: function (obj) {
+    var site = this.repoDoSite().toLowerCase();
+    if (site && String(obj.ghRepo || '').trim().toLowerCase() === site) {
+      throw new Error('O repositório de dados não pode ser "' + site + '": esse é o repositório público do site. Use o repositório privado (clube-tiro-anotacoes).');
+    }
     var d = {};
     this.CAMPOS.forEach(function (c) { d[c] = String(obj[c] || '').trim(); });
     if (!d.ghRepo) d.ghRepo = 'clube-tiro-anotacoes';
@@ -59,14 +68,12 @@ var ConfigTela = {
   },
 
   salvar: async function () {
-    var c = this.ler();
-    // O site (este app) mora num repositorio publico; as notas nunca podem ir para ele
-    var repoSite = location.hostname.indexOf('github.io') >= 0 ? location.pathname.split('/')[1] : '';
-    if (repoSite && c.ghRepo.trim() === repoSite) {
-      App.aviso('O repositório de dados não pode ser "' + repoSite + '": esse é o repositório público do site. Use o repositório privado (clube-tiro-anotacoes).', 'erro');
+    try {
+      Config.save(this.ler());
+    } catch (e) {
+      App.aviso(e.message, 'erro');
       return;
     }
-    Config.save(c);
     App.aviso('Configuração salva.', 'ok');
     if (typeof App.recarregar === 'function') {
       try {

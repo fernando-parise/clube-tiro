@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' blob: data:; media-src blob:; connect-src https://api.github.com https://api.anthropic.com https://api.groq.com; base-uri 'none'; form-action 'none'">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Clube Tiro</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -88,7 +89,7 @@
 
   <div id="aviso" class="aviso oculta"></div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha384-+mbV2IY1Zk/X1p/nWllGySJSUN8uMs+gUAN10Or95UBH0fpj6GfKgPmgC5EXieXG" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="js/config.js"></script>
   <script src="js/notas.js"></script>
   <script src="js/whatsapp-parser.js"></script>
@@ -97,7 +98,7 @@
   <script src="js/transcricao.js"></script>
   <script src="js/lancar.js"></script>
   <script src="js/consultar.js"></script>
-  <script type="module" src="js/claude.js"></script>
+  <script src="js/claude.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
