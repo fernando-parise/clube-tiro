@@ -25,7 +25,8 @@ As credenciais ficam no `localStorage` do navegador. Cada navegador (PC, celular
 
 ## Uso
 
-- **Lançar**: no WhatsApp, menu do grupo → Exportar conversa → *Incluir mídia*; salve o .zip e escolha-o em Lançar. Ou cole o texto / envie áudios e fotos soltos. Processar → revisar → Gravar tudo. Mensagens já processadas de exports anteriores são ignoradas.
+- **Lançar**: dois botões — **Processar JSON** (cola o JSON do Projeto do claude.ai, ou o texto/export do WhatsApp quando há chave de API configurada) e **Nota manual** (o que você escrever vira uma nota só, sem IA; categoria, título e tags você ajusta na revisão).
+- **Lançar (detalhe)**: no WhatsApp, menu do grupo → Exportar conversa → *Incluir mídia*; salve o .zip e escolha-o em Lançar. Ou cole o texto / envie áudios e fotos soltos. Processar → revisar → Gravar tudo. Mensagens já processadas de exports anteriores são ignoradas.
 - **Consultar**: filtro por categoria, busca, nota aberta com fotos e áudio, editar, excluir, imprimir (nota ou lista filtrada).
 
 ## Rodar local

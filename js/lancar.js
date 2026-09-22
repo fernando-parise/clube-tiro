@@ -8,6 +8,7 @@ var Lancar = {
   init: function () {
     var self = this;
     document.getElementById('lancar-processar').addEventListener('click', function () { self.processar(); });
+    document.getElementById('lancar-manual').addEventListener('click', function () { self.manual(); });
     document.getElementById('lancar-cancelar').addEventListener('click', function () { self.limpar(); });
     document.getElementById('lancar-gravar').addEventListener('click', function () { self.gravar(); });
   },
@@ -93,6 +94,39 @@ var Lancar = {
     }
   },
 
+  // Nota manual: o texto colado vira uma nota so, sem IA; titulo/categoria/tags voce ajusta na revisao
+  manual: async function () {
+    var btn = document.getElementById('lancar-manual');
+    btn.disabled = true;
+    try {
+      if (!App.estado.dados) await App.recarregar();
+      var texto = document.getElementById('lancar-texto').value.trim();
+      var arq = await this.normalizar(true);
+      if (!texto && !Object.keys(arq.arquivos).length) { App.aviso('Escreva a anotação ou escolha um arquivo.'); return; }
+      var linhas = texto.split(/\r?\n/).filter(function (l) { return l.trim(); });
+      this.estado = {
+        mensagens: arq.mensagens,
+        arquivos: arq.arquivos,
+        propostas: [{
+          data: Notas.agoraLocal(),
+          categoria: 'outros',
+          titulo: (linhas[0] || 'Anotação').slice(0, 60),
+          tags: [],
+          texto: texto,
+          anexos: Object.keys(arq.arquivos)
+        }],
+        ultimaExport: null
+      };
+      this.renderRevisao();
+      this.status('');
+    } catch (e) {
+      console.error(e);
+      App.aviso('Erro: ' + e.message, 'erro');
+    } finally {
+      btn.disabled = false;
+    }
+  },
+
   processar: async function () {
     var self = this;
     var btn = document.getElementById('lancar-processar');
@@ -115,7 +149,7 @@ var Lancar = {
         App.aviso(n.ignoradas ? 'Nada novo: ' + n.ignoradas + ' mensagem(ns) já processada(s).' : 'Nada para processar.');
         return;
       }
-      if (!Config.get('claudeKey')) throw new Error('Cole o JSON gerado no seu Projeto do claude.ai, ou configure a chave da API do Claude.');
+      if (!Config.get('claudeKey')) throw new Error('Isto não é JSON. Use "Nota manual", cole o JSON gerado no seu Projeto do claude.ai, ou configure a chave da API do Claude.');
       await this.transcrever(n.mensagens, n.arquivos);
       if (!window.ClaudeAPI) throw new Error('Módulo do Claude ainda não carregou; tente de novo.');
       this.status('Estruturando ' + n.mensagens.length + ' mensagem(ns) com o Claude...');
