@@ -94,11 +94,15 @@ var Consultar = {
   },
 
   imprimir: function (notas) {
+    var self = this;
     this.renderLista(notas);
     document.body.classList.add('imprimir-lista');
+    window.addEventListener('afterprint', function limpar() {
+      window.removeEventListener('afterprint', limpar);
+      document.body.classList.remove('imprimir-lista');
+      self.renderLista(self.notas());
+    });
     window.print();
-    document.body.classList.remove('imprimir-lista');
-    this.renderLista(this.notas());
   },
 
   formatarData: function (iso) {
@@ -158,7 +162,7 @@ var Consultar = {
         if (m.tipo === 'imagem') {
           var img = document.createElement('img');
           img.src = url; img.alt = m.legenda || ''; img.title = m.legenda || '';
-          img.addEventListener('click', function (ev) { self.abrirLightbox(ev.target.src, m.legenda || ''); });
+          img.addEventListener('click', function (ev) { self.abrirLightbox(ev.target.src, ev.target.alt); });
           grade.appendChild(img);
         } else {
           var audio = document.createElement('audio');

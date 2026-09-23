@@ -3,6 +3,7 @@
 Diário do instrutor: notas do dia a dia (recarga, campeonatos, armas, munições, pistas, treinos) lançadas a partir do WhatsApp, guardadas num repositório privado do GitHub e consultadas de qualquer aparelho.
 
 Spec: `docs/superpowers/specs/2026-09-20-clube-tiro-design.md` · Plano: `docs/superpowers/plans/2026-09-20-clube-tiro.md`
+
 Redesenho da tela Consultar: `docs/superpowers/specs/2026-09-23-consultar-ux-design.md` · Plano: `docs/superpowers/plans/2026-09-23-consultar-ux.md`
 
 ## Como funciona
@@ -60,8 +61,12 @@ As credenciais ficam no `localStorage` do navegador. Cada navegador (PC, celular
 - [ ] Consultar: home de categorias com contadores corretos, tocar leva à lista certa, "← Categorias" volta
 - [ ] Consultar: busca a partir da home pula direto para os resultados; busca sem acento continua funcionando
 - [ ] Consultar: abrir, editar, excluir nota; foto abre no lightbox e fecha tocando fora ou no X
-- [ ] PDF desta lista traz só o filtro atual; PDF de tudo ignora o filtro; ambos desabilitam com lista vazia
+- [ ] PDF desta lista traz só o filtro atual; PDF de tudo ignora o filtro; PDF desta lista desabilita com a lista filtrada vazia; PDF de tudo só desabilita se o app inteiro não tiver nenhuma nota
+- [ ] PDF desta lista inclui as notas que exigem rolagem pra alcançar, não só as visíveis sem rolar
 - [ ] No celular: tela em uma coluna, lançar e consultar funcionam
+- [ ] Consultar: grade lado a lado (lista + nota) a partir de 900px de largura; abaixo disso, layout empilhado
+- [ ] Consultar: mensagem "Nenhuma nota em [categoria]." numa categoria vazia; "Nenhum resultado." numa busca sem resultado
+- [ ] Lightbox funciona corretamente em orientação retrato e paisagem (testar redimensionando a janela)
 
 ## Decisões registradas
 

@@ -52,7 +52,6 @@ main { max-width: 1100px; margin: 0 auto; padding: 16px; }
   border: 1px solid var(--border-strong); color: var(--text-muted);
   font-size: 12px; cursor: pointer; background: transparent; font: inherit;
 }
-.chip.ativo { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
 .chip[data-cat="campeonatos"] { border-color: var(--accent); color: var(--accent); }
 .chip[data-cat="recarga"]     { border-color: var(--warning); color: var(--warning); }
 .chip[data-cat="armas"]       { border-color: var(--text-muted); color: var(--text-muted); }
@@ -60,7 +59,6 @@ main { max-width: 1100px; margin: 0 auto; padding: 16px; }
 .chip[data-cat="pistas"]      { border-color: var(--accent-2); color: var(--accent-2); }
 .chip[data-cat="treinos"]     { border-color: var(--treinos); color: var(--treinos); }
 .chip[data-cat="outros"]      { border-color: var(--border-strong); color: var(--text-faint); }
-.chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0; }
 
 .grade-categorias { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 12px 0; }
 @media (min-width: 600px) { .grade-categorias { grid-template-columns: repeat(3, 1fr); } }
@@ -82,7 +80,6 @@ main { max-width: 1100px; margin: 0 auto; padding: 16px; }
 .categoria-bloco[data-cat="pistas"]      { border-left-color: var(--accent-2); }
 .categoria-bloco[data-cat="treinos"]     { border-left-color: var(--treinos); }
 .categoria-bloco[data-cat="outros"]      { border-left-color: var(--border-strong); }
-.nota-item { min-height: 44px; }
 
 .btn {
   background: var(--bg-elevated); color: var(--text);
@@ -120,7 +117,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 16px; }
 
 .nota-texto ul { margin: 6px 0; padding-left: 20px; }
 .nota-texto p { margin: 6px 0; }
-.nota-item { cursor: pointer; }
+.nota-item { min-height: 44px; cursor: pointer; }
 .nota-item .imprimir-so { display: none; }
 .midia-grade { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
 .midia-grade img { max-width: 160px; max-height: 160px; border-radius: 8px; border: 1px solid var(--border); cursor: pointer; }
@@ -142,6 +139,11 @@ main { max-width: 1100px; margin: 0 auto; padding: 16px; }
 
 @media (min-width: 900px) {
   .consultar-grade { display: grid; grid-template-columns: 1fr 1.4fr; gap: 16px; align-items: start; }
+}
+
+.cons-toolbar {
+  position: sticky; top: 58px; z-index: 9;
+  background: var(--bg-elevated);
 }
 
 .revisao-card .campo input, .revisao-card .campo textarea { font-size: 14px; }
