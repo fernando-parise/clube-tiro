@@ -1,24 +1,24 @@
 // ========== TELA CONSULTAR ==========
 var Consultar = {
   filtro: { categoria: '', busca: '' },
+  vista: 'home',
   abertaId: null,
 
   init: function () {
     var self = this;
-    var chips = ['<button class="chip ativo" data-cat="">Todas</button>'].concat(
-      Notas.CATEGORIAS.map(function (c) { return '<button class="chip" data-cat="' + c + '">' + c + '</button>'; })
-    ).join('');
-    var wrap = document.getElementById('cons-chips');
-    wrap.innerHTML = chips;
-    wrap.querySelectorAll('.chip').forEach(function (b) {
-      b.addEventListener('click', function () {
-        self.filtro.categoria = b.dataset.cat;
-        wrap.querySelectorAll('.chip').forEach(function (x) { x.classList.toggle('ativo', x === b); });
-        self.render();
-      });
-    });
     document.getElementById('cons-busca').addEventListener('input', function (e) {
       self.filtro.busca = e.target.value;
+      if (self.vista === 'home' && self.filtro.busca.trim()) {
+        self.filtro.categoria = '';
+        self.mostrarVista('lista');
+      }
+      self.render();
+    });
+    document.getElementById('cons-voltar').addEventListener('click', function () {
+      self.fechar();
+      self.filtro = { categoria: '', busca: '' };
+      document.getElementById('cons-busca').value = '';
+      self.mostrarVista('home');
       self.render();
     });
     document.getElementById('cons-imprimir-lista').addEventListener('click', function () {
@@ -29,12 +29,52 @@ var Consultar = {
     this.render();
   },
 
-  notas: function () { return Notas.filtrar((App.estado.dados || {}).notas || [], this.filtro); },
+  mostrarVista: function (vista) {
+    this.vista = vista;
+    document.getElementById('cons-home').classList.toggle('oculta', vista !== 'home');
+    document.getElementById('cons-vista-lista').classList.toggle('oculta', vista !== 'lista');
+  },
+
+  todasNotas: function () { return (App.estado.dados || {}).notas || []; },
+
+  notas: function () { return Notas.filtrar(this.todasNotas(), this.filtro); },
+
+  renderHome: function () {
+    var self = this;
+    var todas = this.todasNotas();
+    var contagem = Notas.contarPorCategoria(todas);
+    var blocos = ['<button class="categoria-bloco" data-cat="">' +
+      '<span class="categoria-nome">Todas</span><span class="categoria-contagem">' + todas.length + '</span></button>'
+    ].concat(Notas.CATEGORIAS.map(function (c) {
+      return '<button class="categoria-bloco" data-cat="' + c + '">' +
+        '<span class="categoria-nome">' + c + '</span><span class="categoria-contagem">' + contagem[c] + '</span></button>';
+    }));
+    var wrap = document.getElementById('cons-categorias');
+    wrap.innerHTML = blocos.join('');
+    wrap.querySelectorAll('.categoria-bloco').forEach(function (b) {
+      b.addEventListener('click', function () {
+        self.filtro.categoria = b.dataset.cat;
+        self.filtro.busca = '';
+        document.getElementById('cons-busca').value = '';
+        self.mostrarVista('lista');
+        self.render();
+      });
+    });
+  },
 
   render: function () {
-    var self = this, esc = Notas.escaparHtml;
+    var self = this;
+    this.renderHome();
     var notas = this.notas();
     document.getElementById('cons-contador').textContent = notas.length + ' nota(s)';
+    this.renderLista(notas);
+    if (this.abertaId && !notas.some(function (n) { return n.id === self.abertaId; })) this.fechar();
+  },
+
+  renderLista: function (notas) {
+    var self = this, esc = Notas.escaparHtml;
+    var vazio = this.filtro.busca.trim() ? 'Nenhum resultado.' :
+      (this.filtro.categoria ? 'Nenhuma nota em ' + this.filtro.categoria + '.' : 'Nenhuma nota.');
     var lista = document.getElementById('cons-lista');
     lista.innerHTML = notas.map(function (n) {
       return '<div class="card nota-item" data-id="' + esc(n.id) + '">' +
@@ -44,11 +84,10 @@ var Consultar = {
         (n.midia && n.midia.length ? '<span>' + n.midia.length + ' anexo(s)</span>' : '') + '</div>' +
         '<div class="nota-texto imprimir-so">' + Notas.renderMarkdown(n.texto) + '</div>' +
         '</div>';
-    }).join('') || '<p class="vazio">Nenhuma nota.</p>';
+    }).join('') || '<p class="vazio">' + vazio + '</p>';
     lista.querySelectorAll('.nota-item').forEach(function (el) {
       el.addEventListener('click', function () { self.abrir(el.dataset.id); });
     });
-    if (this.abertaId && !notas.some(function (n) { return n.id === self.abertaId; })) this.fechar();
   },
 
   formatarData: function (iso) {

@@ -28,13 +28,20 @@
       <h1>Consultar</h1>
       <div class="linha">
         <label class="campo" style="flex:1;margin:0"><input id="cons-busca" placeholder="Buscar em título, texto e tags..."></label>
-        <span id="cons-contador" class="progresso"></span>
-        <button class="btn" id="cons-imprimir-lista">Imprimir lista</button>
       </div>
-      <div class="chips" id="cons-chips"></div>
-      <div class="consultar-grade">
-        <div id="cons-lista"></div>
-        <div id="cons-nota" class="card oculta"></div>
+      <div id="cons-home">
+        <div class="grade-categorias" id="cons-categorias"></div>
+      </div>
+      <div id="cons-vista-lista" class="oculta">
+        <div class="linha">
+          <button class="btn" id="cons-voltar">← Categorias</button>
+          <span id="cons-contador" class="progresso"></span>
+          <button class="btn" id="cons-imprimir-lista">Imprimir lista</button>
+        </div>
+        <div class="consultar-grade">
+          <div id="cons-lista"></div>
+          <div id="cons-nota" class="card oculta"></div>
+        </div>
       </div>
     </section>
 
