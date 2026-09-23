@@ -3,6 +3,7 @@
 Diário do instrutor: notas do dia a dia (recarga, campeonatos, armas, munições, pistas, treinos) lançadas a partir do WhatsApp, guardadas num repositório privado do GitHub e consultadas de qualquer aparelho.
 
 Spec: `docs/superpowers/specs/2026-09-20-clube-tiro-design.md` · Plano: `docs/superpowers/plans/2026-09-20-clube-tiro.md`
+Redesenho da tela Consultar: `docs/superpowers/specs/2026-09-23-consultar-ux-design.md` · Plano: `docs/superpowers/plans/2026-09-23-consultar-ux.md`
 
 ## Como funciona
 
@@ -27,7 +28,7 @@ As credenciais ficam no `localStorage` do navegador. Cada navegador (PC, celular
 
 - **Lançar**: dois botões — **Processar JSON** (cola o JSON do Projeto do claude.ai, ou o texto/export do WhatsApp quando há chave de API configurada) e **Nota manual** (o que você escrever vira uma nota só, sem IA; categoria, título e tags você ajusta na revisão).
 - **Lançar (detalhe)**: no WhatsApp, menu do grupo → Exportar conversa → *Incluir mídia*; salve o .zip e escolha-o em Lançar. Ou cole o texto / envie áudios e fotos soltos. Processar → revisar → Gravar tudo. Mensagens já processadas de exports anteriores são ignoradas.
-- **Consultar**: filtro por categoria, busca, nota aberta com fotos e áudio, editar, excluir, imprimir (nota ou lista filtrada).
+- **Consultar**: abre numa grade de categorias (com contador de notas); tocar numa categoria (ou em "Todas") leva à lista, com busca dentro dela — "← Categorias" volta. Nota aberta com fotos (toque amplia) e áudio, editar, excluir. PDF pela lista: "PDF desta lista" (filtro atual) ou "PDF de tudo".
 
 ## Segurança
 
@@ -56,8 +57,10 @@ As credenciais ficam no `localStorage` do navegador. Cada navegador (PC, celular
 - [ ] Lançar texto colado com dois campeonatos → 2 notas em `campeonatos`
 - [ ] Lançar export .zip com foto e áudio → transcrição no texto, foto com legenda, áudio com player
 - [ ] Reprocessar o mesmo zip → "Nada novo"
-- [ ] Consultar: filtro, busca sem acento, abrir, editar, excluir
-- [ ] Imprimir nota e imprimir lista filtrada
+- [ ] Consultar: home de categorias com contadores corretos, tocar leva à lista certa, "← Categorias" volta
+- [ ] Consultar: busca a partir da home pula direto para os resultados; busca sem acento continua funcionando
+- [ ] Consultar: abrir, editar, excluir nota; foto abre no lightbox e fecha tocando fora ou no X
+- [ ] PDF desta lista traz só o filtro atual; PDF de tudo ignora o filtro; ambos desabilitam com lista vazia
 - [ ] No celular: tela em uma coluna, lançar e consultar funcionam
 
 ## Decisões registradas
