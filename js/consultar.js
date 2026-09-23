@@ -21,10 +21,11 @@ var Consultar = {
       self.mostrarVista('home');
       self.render();
     });
-    document.getElementById('cons-imprimir-lista').addEventListener('click', function () {
-      document.body.classList.add('imprimir-lista');
-      window.print();
-      document.body.classList.remove('imprimir-lista');
+    document.getElementById('cons-pdf-lista').addEventListener('click', function () {
+      self.imprimir(self.notas());
+    });
+    document.getElementById('cons-pdf-tudo').addEventListener('click', function () {
+      self.imprimir(Notas.filtrar(self.todasNotas(), {}));
     });
     this.render();
   },
@@ -68,6 +69,8 @@ var Consultar = {
     var notas = this.notas();
     document.getElementById('cons-contador').textContent = notas.length + ' nota(s)';
     this.renderLista(notas);
+    document.getElementById('cons-pdf-lista').disabled = notas.length === 0;
+    document.getElementById('cons-pdf-tudo').disabled = this.todasNotas().length === 0;
     if (this.abertaId && !notas.some(function (n) { return n.id === self.abertaId; })) this.fechar();
   },
 
@@ -88,6 +91,14 @@ var Consultar = {
     lista.querySelectorAll('.nota-item').forEach(function (el) {
       el.addEventListener('click', function () { self.abrir(el.dataset.id); });
     });
+  },
+
+  imprimir: function (notas) {
+    this.renderLista(notas);
+    document.body.classList.add('imprimir-lista');
+    window.print();
+    document.body.classList.remove('imprimir-lista');
+    this.renderLista(this.notas());
   },
 
   formatarData: function (iso) {
@@ -120,12 +131,10 @@ var Consultar = {
       '<div class="midia-grade" id="cons-midia"></div>' +
       '<div class="linha nao-imprimir">' +
         '<button class="btn" id="cons-editar">Editar</button>' +
-        '<button class="btn" id="cons-imprimir">Imprimir</button>' +
         '<button class="btn btn-perigo" id="cons-excluir">Excluir</button>' +
         '<button class="btn" id="cons-fechar">Fechar</button>' +
       '</div>';
     document.getElementById('cons-editar').addEventListener('click', function () { self.editar(id); });
-    document.getElementById('cons-imprimir').addEventListener('click', function () { window.print(); });
     document.getElementById('cons-excluir').addEventListener('click', function () { self.excluir(id); });
     document.getElementById('cons-fechar').addEventListener('click', function () { self.fechar(); });
     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
