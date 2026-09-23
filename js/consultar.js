@@ -116,6 +116,17 @@ var Consultar = {
     el.classList.add('oculta');
   },
 
+  abrirLightbox: function (url, legenda) {
+    var esc = Notas.escaparHtml;
+    var overlay = document.createElement('div');
+    overlay.className = 'lightbox';
+    overlay.innerHTML = '<button class="lightbox-fechar" aria-label="Fechar">✕</button><img src="' + esc(url) + '" alt="' + esc(legenda) + '">';
+    overlay.addEventListener('click', function (ev) {
+      if (ev.target === overlay || ev.target.classList.contains('lightbox-fechar')) overlay.remove();
+    });
+    document.body.appendChild(overlay);
+  },
+
   abrir: async function (id) {
     var self = this, esc = Notas.escaparHtml;
     var n = this.buscar(id);
@@ -147,7 +158,7 @@ var Consultar = {
         if (m.tipo === 'imagem') {
           var img = document.createElement('img');
           img.src = url; img.alt = m.legenda || ''; img.title = m.legenda || '';
-          img.addEventListener('click', function (ev) { window.open(ev.target.src, '_blank'); });
+          img.addEventListener('click', function (ev) { self.abrirLightbox(ev.target.src, m.legenda || ''); });
           grade.appendChild(img);
         } else {
           var audio = document.createElement('audio');
