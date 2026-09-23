@@ -53,6 +53,13 @@ var Notas = {
     }).sort(function (a, b) { return a.data < b.data ? 1 : a.data > b.data ? -1 : 0; });
   },
 
+  contarPorCategoria: function (notas) {
+    var contagem = {};
+    this.CATEGORIAS.forEach(function (c) { contagem[c] = 0; });
+    (notas || []).forEach(function (n) { contagem[n.categoria] = (contagem[n.categoria] || 0) + 1; });
+    return contagem;
+  },
+
   mesclarLote: function (dados, novas, ultimaMensagem) {
     var ids = dados.notas.map(function (n) { return n.id; });
     var self = this;

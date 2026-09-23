@@ -43,6 +43,20 @@ test('filtrar por categoria e busca sem acento, ordena por data desc', () => {
   assert.equal(Notas.filtrar(notas, {}).length, 3);
 });
 
+test('contarPorCategoria conta por categoria, zerando as sem nota', () => {
+  const notas = [
+    { categoria: 'recarga' },
+    { categoria: 'recarga' },
+    { categoria: 'armas' },
+  ];
+  assert.deepEqual(Notas.contarPorCategoria(notas), {
+    recarga: 2, campeonatos: 0, armas: 1, municoes: 0, pistas: 0, treinos: 0, outros: 0
+  });
+  assert.deepEqual(Notas.contarPorCategoria([]), {
+    recarga: 0, campeonatos: 0, armas: 0, municoes: 0, pistas: 0, treinos: 0, outros: 0
+  });
+});
+
 test('mesclarLote gera ids, criadoEm e atualiza ultimaMensagemProcessada', () => {
   const dados = { versao: 1, ultimaMensagemProcessada: '2026-09-10T08:00', notas: [{ id: '2026-09-19-el-patron', data: '2026-09-19T21:21', titulo: 'El Patron' }] };
   const novas = [
