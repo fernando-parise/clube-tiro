@@ -1,5 +1,5 @@
 // ========== CLAUDE: estrutura mensagens em notas ==========
-var CATEGORIAS = ['recarga', 'campeonatos', 'armas', 'municoes', 'pistas', 'treinos', 'outros'];
+var CATEGORIAS = ['recarga', 'campeonatos', 'armas', 'municoes', 'pistas', 'treinos', 'curso', 'outros'];
 
 var SCHEMA = {
   type: 'object',
@@ -30,11 +30,11 @@ var SYSTEM = [
   '',
   'Regras:',
   '- Agrupe mensagens que tratam do mesmo assunto numa nota só; nunca junte assuntos diferentes. Blocos separados por linhas de "=====" são notas separadas.',
-  '- Categorias: recarga (recarga de munição, componentes, receitas); campeonatos (provas, estágios, regras de competição); armas (armas, manutenção, peças, ajustes); municoes (munições, calibres, preços, fornecedores); pistas (pistas e estandes do clube, montagem, procedimentos); treinos (treinos, exercícios, aulas, alunos); outros (o que não couber acima).',
+  '- Categorias: recarga (recarga de munição, componentes, receitas); campeonatos (provas, estágios, regras de competição); armas (armas, manutenção, peças, ajustes); municoes (munições, calibres, preços, fornecedores); pistas (pistas e estandes do clube, montagem, procedimentos); treinos (treinos que você dá, exercícios, aulas, alunos); curso (material de cursos e certificações que você faz como aluno: apostilas, slides, resumos de aula); outros (o que não couber acima).',
   '- Título curto e específico (ex.: "Campeonato El Patron", "Preço CBC .38 setembro").',
   '- Tags: termos úteis para busca — calibre, distância, nome da prova, arma, fornecedor. Minúsculas, sem repetir o título inteiro.',
   '- Texto em markdown simples: parágrafos, listas com "- " e **negrito**. Fiel ao original: corrija só grafia óbvia, reorganize em lista quando fizer sentido, não invente nem complete informação.',
-  '- Uma foto com legenda vira nota própria quando é assunto por si; se descreve algo que outra mensagem próxima está tratando, entra naquela nota. Cada anexo aparece em no máximo uma nota, pelo nome exato informado em "(anexo: ...)". Anexo sem nenhuma mensagem relacionada vira nota própria com título descritivo.',
+  '- Uma foto, um PDF ou uma apresentação com legenda vira nota própria quando é assunto por si; se descreve algo que outra mensagem próxima está tratando, entra naquela nota. Cada anexo aparece em no máximo uma nota, pelo nome exato informado em "(anexo: ...)" — incluindo arquivos PDF, PPT, DOC e XLS além de fotos e áudios. Anexo sem nenhuma mensagem relacionada vira nota própria com título descritivo.',
   '- "data" da nota é a data/hora da primeira mensagem que a compõe, no formato AAAA-MM-DDTHH:MM.',
   '- Mensagens sem conteúdo útil (cumprimentos, "ok", figurinhas) não viram nota.',
   '- Vocabulário da área: recarga, espoleta, pólvora, projétil, estojo, calibre, cadência, estágio, alvo, pista, estande, cronômetro, coldre, carabina, pistola, revólver, cal. 12.'

@@ -164,6 +164,12 @@ var Consultar = {
           img.src = url; img.alt = m.legenda || ''; img.title = m.legenda || '';
           img.addEventListener('click', function (ev) { self.abrirLightbox(ev.target.src, ev.target.alt); });
           grade.appendChild(img);
+        } else if (m.tipo === 'documento') {
+          var link = document.createElement('a');
+          link.href = url; link.target = '_blank'; link.rel = 'noopener';
+          link.className = 'documento-link';
+          link.textContent = (m.legenda ? m.legenda + ' — ' : '') + m.arquivo.split('/').pop();
+          grade.appendChild(link);
         } else {
           var audio = document.createElement('audio');
           audio.controls = true; audio.src = url;

@@ -61,7 +61,13 @@ var GH = {
     if (this._cacheBlob[path]) return this._cacheBlob[path];
     var r = await fetch(this._base() + path, { headers: this._headers({ 'Accept': 'application/vnd.github.raw+json' }) });
     if (!r.ok) throw new Error('GitHub ' + r.status + ' ao baixar ' + path);
-    var url = URL.createObjectURL(await r.blob());
+    var blob = await r.blob();
+    // O GitHub costuma devolver application/octet-stream; fixa o tipo pela extensao
+    // para o navegador previsualizar (ex.: PDF) em vez de so baixar o arquivo.
+    var ext = path.split('.').pop().toLowerCase();
+    var tipo = Notas.MIME[ext];
+    if (tipo && blob.type !== tipo) blob = blob.slice(0, blob.size, tipo);
+    var url = URL.createObjectURL(blob);
     this._cacheBlob[path] = url;
     return url;
   },

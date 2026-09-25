@@ -58,6 +58,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 16px; }
 .chip[data-cat="municoes"]    { border-color: var(--success); color: var(--success); }
 .chip[data-cat="pistas"]      { border-color: var(--accent-2); color: var(--accent-2); }
 .chip[data-cat="treinos"]     { border-color: var(--treinos); color: var(--treinos); }
+.chip[data-cat="curso"]       { border-color: var(--curso); color: var(--curso); }
 .chip[data-cat="outros"]      { border-color: var(--border-strong); color: var(--text-faint); }
 
 .grade-categorias { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 12px 0; }
@@ -79,6 +80,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 16px; }
 .categoria-bloco[data-cat="municoes"]    { border-left-color: var(--success); }
 .categoria-bloco[data-cat="pistas"]      { border-left-color: var(--accent-2); }
 .categoria-bloco[data-cat="treinos"]     { border-left-color: var(--treinos); }
+.categoria-bloco[data-cat="curso"]       { border-left-color: var(--curso); }
 .categoria-bloco[data-cat="outros"]      { border-left-color: var(--border-strong); }
 
 .btn {
@@ -122,6 +124,12 @@ main { max-width: 1100px; margin: 0 auto; padding: 16px; }
 .midia-grade { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
 .midia-grade img { max-width: 160px; max-height: 160px; border-radius: 8px; border: 1px solid var(--border); cursor: pointer; }
 .midia-grade audio { width: 100%; }
+.midia-grade .documento-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 10px; border: 1px solid var(--border); border-radius: 8px;
+  color: var(--accent-2); text-decoration: none; font-size: 13px;
+}
+.midia-grade .documento-link:hover { border-color: var(--accent-2); }
 
 .lightbox {
   position: fixed; inset: 0; z-index: 50;
@@ -152,6 +160,8 @@ main { max-width: 1100px; margin: 0 auto; padding: 16px; }
 .revisao-card .anexos img { max-width: 120px; max-height: 120px; border-radius: 8px; border: 1px solid var(--border); }
 .revisao-card .anexos .anexo-audio { display: flex; flex-direction: column; gap: 4px; width: 100%; }
 .revisao-card .anexos .anexo-audio small { color: var(--text-faint); }
+.revisao-card .anexos .anexo-documento { width: 100%; }
+.revisao-card .anexos .anexo-documento a { color: var(--accent-2); }
 
 @media print {
   body { background: #fff !important; color: #000 !important; font-family: Georgia, "Times New Roman", serif; font-size: 12pt; }
@@ -162,6 +172,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 16px; }
   .meta { color: #333 !important; }
   .midia-grade img { max-width: 60%; max-height: none; border: none; }
   .midia-grade audio { display: none; }
+  .midia-grade .documento-link { display: none; }
   h1, h2, h3 { color: #000 !important; }
 
   /* Nota aberta: imprime so ela */

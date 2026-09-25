@@ -1,6 +1,20 @@
 // ========== MODELO DE NOTAS (funcoes puras, roda no navegador e no Node) ==========
 var Notas = {
-  CATEGORIAS: ['recarga', 'campeonatos', 'armas', 'municoes', 'pistas', 'treinos', 'outros'],
+  CATEGORIAS: ['recarga', 'campeonatos', 'armas', 'municoes', 'pistas', 'treinos', 'curso', 'outros'],
+
+  // MIME por extensao, compartilhado por lancar.js (upload) e github-api.js (download)
+  MIME: {
+    opus: 'audio/ogg', ogg: 'audio/ogg', m4a: 'audio/mp4', mp3: 'audio/mpeg', wav: 'audio/wav',
+    jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp', gif: 'image/gif',
+    pdf: 'application/pdf',
+    doc: 'application/msword',
+    docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    ppt: 'application/vnd.ms-powerpoint',
+    pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    xls: 'application/vnd.ms-excel',
+    xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    csv: 'text/csv'
+  },
 
   dadosVazios: function () {
     return { versao: 1, ultimaMensagemProcessada: null, notas: [] };

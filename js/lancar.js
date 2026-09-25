@@ -3,7 +3,7 @@ var Lancar = {
   estado: { mensagens: [], arquivos: {}, propostas: [], ultimaExport: null },
   RE_AUDIO: /\.(opus|ogg|m4a|mp3|wav)$/i,
   RE_IMAGEM: /\.(jpe?g|png|webp|gif)$/i,
-  MIME: { opus: 'audio/ogg', ogg: 'audio/ogg', m4a: 'audio/mp4', mp3: 'audio/mpeg', wav: 'audio/wav', jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp', gif: 'image/gif' },
+  RE_DOCUMENTO: /\.(pdf|docx?|pptx?|xlsx?|csv)$/i,
 
   init: function () {
     var self = this;
@@ -18,6 +18,7 @@ var Lancar = {
   tipoAnexo: function (nome) {
     if (this.RE_AUDIO.test(nome)) return 'audio';
     if (this.RE_IMAGEM.test(nome)) return 'imagem';
+    if (this.RE_DOCUMENTO.test(nome)) return 'documento';
     return null;
   },
 
@@ -52,7 +53,7 @@ var Lancar = {
             deExport = deExport.concat(WhatsAppParser.parse(await zip.files[nome].async('string'), agora));
           } else if (self.tipoAnexo(base)) {
             var ext = base.split('.').pop().toLowerCase();
-            arquivos[base] = new Blob([await zip.files[nome].async('uint8array')], { type: self.MIME[ext] || 'application/octet-stream' });
+            arquivos[base] = new Blob([await zip.files[nome].async('uint8array')], { type: Notas.MIME[ext] || 'application/octet-stream' });
           }
         }
       } else if (/\.txt$/i.test(f.name)) {
@@ -174,9 +175,10 @@ var Lancar = {
         var blob = self.estado.arquivos[nome];
         if (!blob) return '<small>' + esc(nome) + ' (sem arquivo)</small>';
         var url = URL.createObjectURL(blob);
-        return self.tipoAnexo(nome) === 'imagem'
-          ? '<img src="' + url + '" alt="' + esc(nome) + '">'
-          : '<div class="anexo-audio"><audio controls src="' + url + '"></audio><small>' + esc(nome) + '</small></div>';
+        var tipo = self.tipoAnexo(nome);
+        if (tipo === 'imagem') return '<img src="' + url + '" alt="' + esc(nome) + '">';
+        if (tipo === 'documento') return '<div class="anexo-documento"><a href="' + url + '" target="_blank" rel="noopener">' + esc(nome) + '</a></div>';
+        return '<div class="anexo-audio"><audio controls src="' + url + '"></audio><small>' + esc(nome) + '</small></div>';
       }).join('');
       return '<div class="card revisao-card" data-i="' + i + '">' +
         '<div class="linha"><label class="campo" style="flex:1"><span>Título</span><input class="rev-titulo" value="' + esc(p.titulo) + '"></label>' +
@@ -254,8 +256,8 @@ var Lancar = {
           var caminho = this.nomeMidia(prop.data, tipo === 'imagem' ? 'foto.jpg' : nome);
           await GH.putFile(caminho, await Imagem.blobParaBase64(blob), 'Mídia ' + nome);
           var item = { tipo: tipo, arquivo: caminho };
-          if (tipo === 'imagem') item.legenda = (msg.texto || '').split('\n')[0].slice(0, 200);
-          else item.transcricao = msg.transcricao || null;
+          if (tipo === 'audio') item.transcricao = msg.transcricao || null;
+          else item.legenda = (msg.texto || '').split('\n')[0].slice(0, 200);
           midia.push(item);
         }
         var origem = prop.anexos.length ? 'arquivo' : 'colado';

@@ -22,13 +22,13 @@ As credenciais ficam no `localStorage` do navegador. Cada navegador (PC, celular
 
 ## Dois jeitos de estruturar as notas
 
-1. **Pelo claude.ai (sem chave de API)** — crie um Projeto no claude.ai com as instruções de `docs/instrucoes-projeto-claude-ai.md`, mande lá as mensagens do WhatsApp (áudio: transcreva no próprio WhatsApp e mande o texto), copie o JSON que ele devolve e cole em **Lançar**. O app reconhece o JSON e vai direto pra revisão. Fotos: anexe no app junto com o JSON, com o mesmo nome de arquivo que você citou pro Claude.
+1. **Pelo claude.ai (sem chave de API)** — crie um Projeto no claude.ai com as instruções de `docs/instrucoes-projeto-claude-ai.md`, mande lá as mensagens do WhatsApp (áudio: transcreva no próprio WhatsApp e mande o texto) ou o material de um curso (anotações e nomes de arquivo de PDF/PPT), copie o JSON que ele devolve e cole em **Lançar**. O app reconhece o JSON e vai direto pra revisão. Fotos e documentos: anexe no app junto com o JSON, com o mesmo nome de arquivo que você citou pro Claude.
 2. **Pela API (chaves do Claude e do Groq na Config)** — cole o texto ou o export .zip em Lançar e o app transcreve e estrutura sozinho. Custo por uso.
 
 ## Uso
 
 - **Lançar**: dois botões — **Processar JSON** (cola o JSON do Projeto do claude.ai, ou o texto/export do WhatsApp quando há chave de API configurada) e **Nota manual** (o que você escrever vira uma nota só, sem IA; categoria, título e tags você ajusta na revisão).
-- **Lançar (detalhe)**: no WhatsApp, menu do grupo → Exportar conversa → *Incluir mídia*; salve o .zip e escolha-o em Lançar. Ou cole o texto / envie áudios e fotos soltos. Processar → revisar → Gravar tudo. Mensagens já processadas de exports anteriores são ignoradas.
+- **Lançar (detalhe)**: no WhatsApp, menu do grupo → Exportar conversa → *Incluir mídia*; salve o .zip e escolha-o em Lançar. Ou cole o texto / envie áudios, fotos e documentos (PDF, PPT, DOC, XLS) soltos. Processar → revisar → Gravar tudo. Mensagens já processadas de exports anteriores são ignoradas.
 - **Consultar**: abre numa grade de categorias (com contador de notas); tocar numa categoria (ou em "Todas") leva à lista, com busca dentro dela — "← Categorias" volta. Nota aberta com fotos (toque amplia) e áudio, editar, excluir. PDF pela lista: "PDF desta lista" (filtro atual) ou "PDF de tudo".
 
 ## Segurança
@@ -67,8 +67,10 @@ As credenciais ficam no `localStorage` do navegador. Cada navegador (PC, celular
 - [ ] Consultar: grade lado a lado (lista + nota) a partir de 900px de largura; abaixo disso, layout empilhado
 - [ ] Consultar: mensagem "Nenhuma nota em [categoria]." numa categoria vazia; "Nenhum resultado." numa busca sem resultado
 - [ ] Lightbox funciona corretamente em orientação retrato e paisagem (testar redimensionando a janela)
+- [ ] Lançar com um PDF anexado → nota em `curso` (ou a categoria escolhida) com o PDF listado como link; Consultar → abrir a nota → o link abre o PDF numa aba nova (não baixa como arquivo genérico)
 
 ## Decisões registradas
 
 - Transcrição: Groq `whisper-large-v3-turbo` (chamada direta do navegador confirmada em 2026-09-20). Alternativa: OpenAI `whisper-1`, comentada em `js/transcricao.js`.
-- Claude: SDK `@anthropic-ai/sdk@0.127.0` via esm.sh (versão fixada) com `dangerouslyAllowBrowser` (confirmado em 2026-09-20; o fallback com `fetch` não foi necessário).
+- Claude: chamada via `fetch` direto à API (sem SDK de terceiros) — trocado em 2026-09-22 por segurança, ver seção Segurança.
+- Anexos de PDF/PPT/DOC/XLS (categoria `curso`, para material de cursos e certificações) abrem num link em vez de tocar como áudio; o MIME do arquivo baixado do GitHub é corrigido pela extensão para o navegador conseguir pré-visualizar.

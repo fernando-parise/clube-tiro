@@ -50,10 +50,10 @@ test('contarPorCategoria conta por categoria, zerando as sem nota', () => {
     { categoria: 'armas' },
   ];
   assert.deepEqual(Notas.contarPorCategoria(notas), {
-    recarga: 2, campeonatos: 0, armas: 1, municoes: 0, pistas: 0, treinos: 0, outros: 0
+    recarga: 2, campeonatos: 0, armas: 1, municoes: 0, pistas: 0, treinos: 0, curso: 0, outros: 0
   });
   assert.deepEqual(Notas.contarPorCategoria([]), {
-    recarga: 0, campeonatos: 0, armas: 0, municoes: 0, pistas: 0, treinos: 0, outros: 0
+    recarga: 0, campeonatos: 0, armas: 0, municoes: 0, pistas: 0, treinos: 0, curso: 0, outros: 0
   });
 });
 
@@ -93,4 +93,14 @@ test('lerJsonNotas aceita {notas:[]}, lista, cerca de codigo e rejeita texto sol
   assert.equal(Notas.lerJsonNotas('Campeonato El Patron' + NL + '3 tiros peito'), null);
   assert.equal(Notas.lerJsonNotas('{"x":1}'), null);
   assert.equal(Notas.lerJsonNotas('{quebrado'), null);
+});
+
+test('CATEGORIAS inclui curso e MIME cobre pdf/ppt/doc/xls alem de imagem e audio', () => {
+  assert.ok(Notas.CATEGORIAS.includes('curso'));
+  assert.equal(Notas.MIME.pdf, 'application/pdf');
+  assert.equal(Notas.MIME.pptx, 'application/vnd.openxmlformats-officedocument.presentationml.presentation');
+  assert.equal(Notas.MIME.docx, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+  assert.equal(Notas.MIME.xlsx, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+  assert.equal(Notas.MIME.jpg, 'image/jpeg');
+  assert.equal(Notas.MIME.mp3, 'audio/mpeg');
 });
